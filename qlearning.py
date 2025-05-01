@@ -24,21 +24,15 @@ def qlearning(
             a = epsilon_greedy(
                 Q, s, epsilon
             )  # Choose A from S using policy derived from Q, e-greedy
-            # print("current action: ", Actions(a))
-            # print("current state: ", s)
+        
             s_prime = model.next_state(s, Actions(a))
             R = model.reward(s, Actions(a))
             total_reward += R
 
             # SARSA update
-            # Q[s, a] += alpha* (R + model.gamma*max(Q[s_prime]) - Q[s, a])
             Q[s, a] += alpha * (R + model.gamma * np.max(Q[s_prime, :]) - Q[s, a])
 
             if s_prime == model.goal_state:  # If terminal state stop
-                # R = model.reward(s, Actions(a))
-                # total_reward += R
-                # Q[s, a] += alpha* (R  - Q[s, a])
-                # terminal = True
                 break
 
             else:
@@ -62,30 +56,3 @@ def epsilon_greedy(Q, s, epsilon):
             len(Actions)
         )  # exploring (choosing random action index)
     return np.argmax(Q[s])  # exploiting (choosing index of the action that maximises Q)
-
-
-# if __name__ == "__main__":
-#     import matplotlib.pyplot as plt
-#     from world_config import cliff_world, small_world, grid_world
-#     from plot_vp import plot_vp
-
-#     if len(sys.argv) > 1:
-#         if sys.argv[1] == 'cliff':
-#             model = Model(cliff_world)
-#         elif sys.argv[1] == 'small':
-#             model = Model(small_world)
-#         elif sys.argv[1] == 'grid':
-#             model = Model(grid_world)
-#         else:
-#             print("Error: unknown world type:", sys.argv[1])
-#     else:
-#         model = Model(small_world)
-
-#     if len(sys.argv) > 2:
-#         n_episodes = int(sys.argv[2])
-#         V, pi, = value_iteration(model, n_episodes=n_episodes)
-#     else:
-#         V, pi = value_iteration(model)
-
-#     plot_vp(model, V, pi)
-#     plt.show()
