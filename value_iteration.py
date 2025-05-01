@@ -65,23 +65,6 @@ def value_iteration(
             break
 
     print(f"Value Iteration converged after {episode_count} episode.")
-    # print(f"Value Iteration converged after {iteration_count} iterations.")
-
-    # for s in model.states:
-    #     # pi_old= np.copy(pi)
-    #     pi[s] = np.argmax(
-    #         [
-    #             sum(
-    #                 model.transition_probability(s, s_, a)
-    #                 * (model.reward(s, a) + model.gamma * V[s_])
-    #                 for s_ in model.states
-    #             )
-    #             for a in Actions
-    #         ]
-    #     )
-    # abs(pi_old- pi)
-    # diffs = sum((pi_old != pi))
-    # diff_per_episode.append(diffs)
 
     return V, pi, np.array(diff_per_episode)
 
